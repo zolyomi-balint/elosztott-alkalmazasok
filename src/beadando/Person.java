@@ -3,22 +3,22 @@ package beadando;
 public class Person {
     private String name;
     private int age;
-    private boolean isHealthy;
+    private boolean healthy;
 
     public Person(String name, int age) {
         this.name = name;
         this.age = age;
-        this.isHealthy = true;
+        this.healthy = true;
     }
     
     public void chat(Person person) {
         System.out.println(this.name + " chatting with: " + person.name);
-        this.setIsHealthy(Math.random() < .9);
-        person.setIsHealthy(Math.random() < .9);
+        this.setHealthy(Math.random() < .9);
+        person.setHealthy(Math.random() < .9);
     }
 
-    public void setIsHealthy(boolean isHealthy) {
-        this.isHealthy = isHealthy;
+    public void setHealthy(boolean healthy) {
+        this.healthy = healthy;
     }
 
     public String getName() {
@@ -29,8 +29,8 @@ public class Person {
         return age;
     }
 
-    public boolean isIsHealthy() {
-        return isHealthy;
+    public boolean isHealthy() {
+        return healthy;
     }
     
 }
