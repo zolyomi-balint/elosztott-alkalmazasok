@@ -32,5 +32,10 @@ public class Person {
     public boolean isHealthy() {
         return healthy;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" + "name=" + name + ", age=" + age + ", healthy=" + healthy + '}';
+    }
     
 }

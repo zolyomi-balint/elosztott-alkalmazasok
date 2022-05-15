@@ -16,5 +16,10 @@ public class Doctor extends Person {
     public String getSpecialization() {
         return specialization;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " Doctor{specialization=" + specialization + "}"; // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
     
 }
