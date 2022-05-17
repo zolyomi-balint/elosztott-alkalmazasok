@@ -1,5 +1,6 @@
 package beadando;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -13,13 +14,16 @@ public class Program {
         Doctor d2 = new Doctor("Dean", 78, "psychiatrist");
         
         System.out.println("Original:");
-        List<Person> people = Arrays.asList(p1, p2, d1, d2);
+        ArrayList<Person> people = new ArrayList<>();
+        people.add(p1);
+        people.add(p2);
+//        people = {p1, p2, d1, d2};
         printPeople(people);
         
         System.out.println("Sorted by name:");
         Collections.sort(people, new NameComparator());
         printPeople(people);
-        
+//        
         System.out.println("Sorted by age:");
         Collections.sort(people, new AgeComparator());
         printPeople(people);
