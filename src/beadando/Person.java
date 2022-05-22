@@ -13,8 +13,14 @@ public class Person {
     
     public void chat(Person person) {
         System.out.println(this.name + " chatting with: " + person.name);
-        this.setHealthy(Math.random() < .9);
-        person.setHealthy(Math.random() < .9);
+        this.updateHealthy();
+        person.updateHealthy();
+    }
+    
+    public void updateHealthy() {
+        if (this.isHealthy()) {
+                this.setHealthy(Math.random() < .9);
+            }
     }
 
     public void setHealthy(boolean healthy) {

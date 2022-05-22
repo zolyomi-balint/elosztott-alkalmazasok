@@ -8,15 +8,15 @@ public class Doctor extends Person {
         this.specialization = specialization;
     }
 
-    @Override
-    public void chat(Person person) {
-        System.out.println(this.getName() + " chatting with: " + person.getName());
-    }
-
     public String getSpecialization() {
         return specialization;
     }
 
+    @Override
+    public void updateHealthy() {
+      // doctor can't get sick from chatting
+    }
+    
     @Override
     public String toString() {
         return super.toString() + " Doctor{specialization=" + specialization + "}";
