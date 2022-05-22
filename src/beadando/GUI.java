@@ -162,7 +162,6 @@ public class GUI extends javax.swing.JFrame {
         jLabel4.setText("Order by:");
 
         buttonGroupNameOrAge.add(jRadioButtonOrderByName);
-        jRadioButtonOrderByName.setSelected(true);
         jRadioButtonOrderByName.setText("name");
         jRadioButtonOrderByName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -236,12 +235,6 @@ public class GUI extends javax.swing.JFrame {
         jButtonChat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonChatActionPerformed(evt);
-            }
-        });
-
-        jComboBoxPerson1ToChat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxPerson1ToChatActionPerformed(evt);
             }
         });
 
@@ -401,12 +394,6 @@ public class GUI extends javax.swing.JFrame {
         selectPerson();
     }//GEN-LAST:event_jList1MouseClicked
 
-    private void selectPerson() {
-        // TODO add your handling code here:
-        String nameOfSelectedPerson = jList1.getSelectedValue();
-        printPersonData(nameOfSelectedPerson);
-    }
-
     private void jButtonChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChatActionPerformed
         // TODO add your handling code here:
         String nameOfPerson1 = (String) jComboBoxPerson1ToChat.getSelectedItem();
@@ -415,11 +402,8 @@ public class GUI extends javax.swing.JFrame {
         Person person2 = getPersonByName(nameOfPerson2);
         
         person1.chat(person2);
+        selectPerson();
     }//GEN-LAST:event_jButtonChatActionPerformed
-
-    private void jComboBoxPerson1ToChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPerson1ToChatActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxPerson1ToChatActionPerformed
 
     private void jList1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseDragged
         // TODO add your handling code here:
@@ -528,5 +512,11 @@ public class GUI extends javax.swing.JFrame {
             }
         }
         return selectedPerson;
+    }
+    
+    private void selectPerson() {
+        // TODO add your handling code here:
+        String nameOfSelectedPerson = jList1.getSelectedValue();
+        printPersonData(nameOfSelectedPerson);
     }
 }
