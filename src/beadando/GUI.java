@@ -179,14 +179,19 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        jList1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jList1MouseDragged(evt);
+            }
         });
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jList1MouseClicked(evt);
+            }
+        });
+        jList1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jList1KeyReleased(evt);
             }
         });
         jScrollPane1.setViewportView(jList1);
@@ -235,9 +240,11 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxPerson1ToChat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBoxPerson2ToChat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxPerson1ToChat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxPerson1ToChatActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Select people to chat:");
 
@@ -354,11 +361,16 @@ public class GUI extends javax.swing.JFrame {
         
         if (jRadioButtonPerson.isSelected()) {
             Person p1 = new Person(name, age);
+            jTextFieldName.setText("");
+            jSpinnerAge.setValue(0);
             people.add(p1);
         }
         else if (jRadioButtonDoctor.isSelected()) {
-            Doctor d1 = new Doctor(name, 66, specialization);
+            Doctor d1 = new Doctor(name, age, specialization);
             people.add(d1);
+            jTextFieldName.setText("");
+            jSpinnerAge.setValue(0);
+            jTextFieldSpecialization.setText("");
         }
         printPeople(people);
         
@@ -387,10 +399,14 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButtonOrderByAgeActionPerformed
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        selectPerson();
+    }//GEN-LAST:event_jList1MouseClicked
+
+    private void selectPerson() {
         // TODO add your handling code here:
         String nameOfSelectedPerson = jList1.getSelectedValue();
         printPersonData(nameOfSelectedPerson);
-    }//GEN-LAST:event_jList1MouseClicked
+    }
 
     private void jButtonChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChatActionPerformed
         // TODO add your handling code here:
@@ -401,6 +417,20 @@ public class GUI extends javax.swing.JFrame {
         
         person1.chat(person2);
     }//GEN-LAST:event_jButtonChatActionPerformed
+
+    private void jComboBoxPerson1ToChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPerson1ToChatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxPerson1ToChatActionPerformed
+
+    private void jList1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseDragged
+        // TODO add your handling code here:
+        selectPerson();
+    }//GEN-LAST:event_jList1MouseDragged
+
+    private void jList1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jList1KeyReleased
+        // TODO add your handling code here:
+        selectPerson();
+    }//GEN-LAST:event_jList1KeyReleased
 
     /**
      * @param args the command line arguments
