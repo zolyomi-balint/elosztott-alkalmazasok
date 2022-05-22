@@ -1,13 +1,12 @@
 package beadando;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import javax.swing.DefaultComboBoxModel;
 
 public class GUI extends javax.swing.JFrame {
 
     /* FIELD VARIABLES */
-    ArrayList<Person> people = new ArrayList<>();
+        Locality locality = new Locality();
     
     /* CONSTRUCTOR */
     public GUI() {
@@ -363,16 +362,16 @@ public class GUI extends javax.swing.JFrame {
             Person p1 = new Person(name, age);
             jTextFieldName.setText("");
             jSpinnerAge.setValue(0);
-            people.add(p1);
+            locality.addPerson(p1);
         }
         else if (jRadioButtonDoctor.isSelected()) {
             Doctor d1 = new Doctor(name, age, specialization);
-            people.add(d1);
+            locality.addPerson(d1);
             jTextFieldName.setText("");
             jSpinnerAge.setValue(0);
             jTextFieldSpecialization.setText("");
         }
-        printPeople(people);
+        printPeople(locality.getPeople());
         
     }//GEN-LAST:event_jButtonAddActionPerformed
 
@@ -388,14 +387,14 @@ public class GUI extends javax.swing.JFrame {
 
     private void jRadioButtonOrderByNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonOrderByNameActionPerformed
         // TODO add your handling code here:
-        Collections.sort(people, new NameComparator());
-        printPeople(people);
+        locality.sortPeopleByName();
+        printPeople(locality.getPeople());
     }//GEN-LAST:event_jRadioButtonOrderByNameActionPerformed
 
     private void jRadioButtonOrderByAgeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonOrderByAgeActionPerformed
         // TODO add your handling code here:
-        Collections.sort(people, new AgeComparator());
-        printPeople(people);
+        locality.sortPeopleByAge();
+        printPeople(locality.getPeople());
     }//GEN-LAST:event_jRadioButtonOrderByAgeActionPerformed
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
@@ -514,7 +513,7 @@ public class GUI extends javax.swing.JFrame {
     }
 
     private void printPersonData(String nameOfSelectedPerson) {
-        for (Person person : people) {
+        for (Person person : locality.getPeople()) {
             if (person.getName() == nameOfSelectedPerson) {
                 jTextFieldPersonData.setText(person.toString());    
             }
@@ -523,7 +522,7 @@ public class GUI extends javax.swing.JFrame {
 
     private Person getPersonByName(String nameOfPerson) {
         Person selectedPerson = null;
-        for (Person person : people) {
+        for (Person person : locality.getPeople()) {
             if (person.getName() == nameOfPerson) {
                 selectedPerson = person;
             }
