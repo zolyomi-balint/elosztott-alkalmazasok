@@ -2,6 +2,7 @@ package beadando;
 
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class GUI extends javax.swing.JFrame {
@@ -53,7 +54,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jTextFieldPersonData = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Locality");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -425,9 +426,17 @@ public class GUI extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         int selectedButton = JOptionPane.showConfirmDialog(rootPane, "Save changes?", "Locality", JOptionPane.YES_NO_CANCEL_OPTION);
-        if (selectedButton == 0) {
-            locality.savePeople();
-        }
+            switch (selectedButton) {
+                case JOptionPane.YES_OPTION:
+                    locality.savePeople();
+                    System.exit(0);
+                case JOptionPane.NO_OPTION:
+                    System.exit(0);
+                case JOptionPane.CANCEL_OPTION:
+                    break;
+                default:
+                    break;
+            }
     }//GEN-LAST:event_formWindowClosing
 
     /**
