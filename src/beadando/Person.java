@@ -13,9 +13,23 @@ public class Person implements Serializable {
         this.healthy = true;
     }
     
-    public void chat(Person person) {
+    public String chatReturnsNameOfWhoGotSick(Person otherPerson) {
+        String nameOfSick = "";
+        boolean thisWasHealthy = this.isHealthy();
+        boolean otherWasHealthy = otherPerson.isHealthy();
         this.updateHealthy();
-        person.updateHealthy();
+        otherPerson.updateHealthy();
+        
+        if (thisWasHealthy && !this.isHealthy()) {
+            nameOfSick += this.getName();
+            if (otherWasHealthy && !otherPerson.isHealthy()) {
+                nameOfSick += " and " + otherPerson.getName();
+            }
+        } else if (otherWasHealthy && !otherPerson.isHealthy()) {
+            nameOfSick += otherPerson.getName();
+        }
+        
+        return nameOfSick;
     }
     
     public void updateHealthy() {

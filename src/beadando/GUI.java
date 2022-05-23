@@ -409,13 +409,18 @@ public class GUI extends javax.swing.JFrame {
         Person person2 = getPersonByName(nameOfPerson2);
         
         if (person1.equals(person2)) {
-            JOptionPane.showMessageDialog(
-                    rootPane, "Cannot chat with self!", "Invalid input",
-                    JOptionPane.WARNING_MESSAGE);
+            printWarningMessage(
+                "Cannot chat with self!",
+                "Invalid input");
         } else {
-            person1.chat(person2);
+            String whoGotSick = person1.chatReturnsNameOfWhoGotSick(person2);
+            showDataOfPerson();
+            if (!"".equals(whoGotSick)) {
+                printWarningMessage(
+                    whoGotSick + " got sick!",
+                    "Oops...");
+            }
         }
-        showDataOfPerson();
     }//GEN-LAST:event_jButtonChatActionPerformed
 
     private void jList1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseDragged
@@ -556,11 +561,9 @@ public class GUI extends javax.swing.JFrame {
     private boolean isValidAge(int ageInput) {
         boolean isValid = ageInput >= 0 && ageInput <= 150;
         if (!isValid) {
-            JOptionPane.showMessageDialog(
-                    rootPane,
-                    "Age must be between 0-150!",
-                    "Invalid input",
-                    JOptionPane.WARNING_MESSAGE);
+            printWarningMessage(
+                "Age must be a whole number between 0 and 150!",
+                "Invalid input");
             jSpinnerAge.setValue(0);
         }
         return isValid;
@@ -568,32 +571,26 @@ public class GUI extends javax.swing.JFrame {
     
     private boolean isValidName(String nameInput) {
         boolean existingPerson = getPersonByName(nameInput) != null;
-        boolean isValid = nameInput.matches("[a-zA-Z ,]+");
+        boolean isValid = nameInput.matches("[a-zA-Z ,-]+");
         if (!isValid) {
-            JOptionPane.showMessageDialog(
-                    rootPane,
-                    "Name can only contain letters, spaces and commas!",
-                    "Invalid input",
-                    JOptionPane.WARNING_MESSAGE);
+            printWarningMessage(
+                "Name can only contain letters of the English alphabet, spaces, dashes and commas!",
+                "Invalid input");
         } else if (existingPerson) {
-            JOptionPane.showMessageDialog(
-                    rootPane,
-                    "That person is already in the locality!",
-                    "Invalid input",
-                    JOptionPane.WARNING_MESSAGE);
+            printWarningMessage(
+                "That person is already in the locality!",
+                "Invalid input");
             isValid = false;
         }
         return isValid;
     }
 
     private boolean isValidSpecialization(String specialization) {
-        boolean isValid = specialization.matches("[a-zA-Z]+");
+        boolean isValid = specialization.matches("[a-zA-Z -]+");
         if (!isValid) {
-            JOptionPane.showMessageDialog(
-                    rootPane,
-                    "Specialization can only contain letters!",
-                    "Invalid input",
-                    JOptionPane.WARNING_MESSAGE);
+            printWarningMessage(
+                "Specialization can only contain letters of the English alphabet, spaces and dashes!",
+                "Invalid input");
         }
         return isValid;
     }
@@ -601,5 +598,9 @@ public class GUI extends javax.swing.JFrame {
     private void resetPersonInputFields() {
         jTextFieldName.setText("");
         jSpinnerAge.setValue(0);
+    }
+    
+    private void printWarningMessage(String message, String title) {
+        JOptionPane.showMessageDialog(rootPane, message, title, JOptionPane.WARNING_MESSAGE);
     }
 }
