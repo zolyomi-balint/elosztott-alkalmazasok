@@ -47,6 +47,7 @@ public class GUI extends javax.swing.JFrame {
         jRadioButtonOrderByAge = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
+        jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jButtonChat = new javax.swing.JButton();
         jComboBoxPerson1ToChat = new javax.swing.JComboBox<>();
@@ -207,13 +208,17 @@ public class GUI extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jList1);
 
+        jLabel2.setText("Select person:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jLabel4)
+                .addGap(13, 13, 13)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -236,7 +241,9 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jRadioButtonOrderByName)
                     .addComponent(jRadioButtonOrderByAge))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -280,11 +287,11 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBoxPerson1ToChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(jComboBoxPerson2ToChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jComboBoxPerson1ToChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBoxPerson2ToChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonChat)
                 .addContainerGap())
         );
@@ -359,24 +366,24 @@ public class GUI extends javax.swing.JFrame {
 
     private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
         // TODO add your handling code here:
-        if(isValidAge()) {
             String name = jTextFieldName.getText();
             int age = (Integer) jSpinnerAge.getValue();
 
             String specialization = jTextFieldSpecialization.getText();
 
+        if(isValidAge(age) && isValidName(name)) {
             if (jRadioButtonPerson.isSelected()) {
                 Person p1 = new Person(name, age);
                 jTextFieldName.setText("");
                 jSpinnerAge.setValue(0);
                 locality.addPerson(p1);
             }
-            else if (jRadioButtonDoctor.isSelected()) {
+            else if (jRadioButtonDoctor.isSelected() && isValidSpecialization(specialization)) {
                 Doctor d1 = new Doctor(name, age, specialization);
-                locality.addPerson(d1);
                 jTextFieldName.setText("");
                 jSpinnerAge.setValue(0);
                 jTextFieldSpecialization.setText("");
+                locality.addPerson(d1);
             }
             printPeople(locality.getPeople());
         }
@@ -494,6 +501,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBoxPerson1ToChat;
     private javax.swing.JComboBox<String> jComboBoxPerson2ToChat;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -555,12 +563,28 @@ public class GUI extends javax.swing.JFrame {
         printPersonData(nameOfSelectedPerson);
     }
     
-    private boolean isValidAge() {
-        // TODO add your handling code here:
-        int ageInput = (Integer) jSpinnerAge.getValue();
+    private boolean isValidAge(int ageInput) {
         boolean isValid = ageInput >= 0 && ageInput <= 150;
         if (!isValid) {
             JOptionPane.showMessageDialog(rootPane, "Age must be between 0-150!", "Invalid input", JOptionPane.WARNING_MESSAGE);
+            jSpinnerAge.setValue(0);
+        }
+        return isValid;
+    }
+    
+    private boolean isValidName(String nameInput) {
+        boolean isValid = nameInput.matches("[a-zA-Z ,]+") && getPersonByName(nameInput) == null;
+        if (!isValid) {
+            JOptionPane.showMessageDialog(rootPane, "Name can only contain letters, spaces and commas!", "Invalid input", JOptionPane.WARNING_MESSAGE);
+            jSpinnerAge.setValue(0);
+        }
+        return isValid;
+    }
+
+    private boolean isValidSpecialization(String specialization) {
+        boolean isValid = specialization.matches("[a-zA-Z]+");
+        if (!isValid) {
+            JOptionPane.showMessageDialog(rootPane, "Specialization can only contain letters!", "Invalid input", JOptionPane.WARNING_MESSAGE);
             jSpinnerAge.setValue(0);
         }
         return isValid;
