@@ -14,7 +14,7 @@ public class Doctor extends Person {
 
     @Override
     public void updateHealthy() {
-      // doctor can't get sick from chatting
+      // a doctor can't get sick from chatting
     }
     
     @Override

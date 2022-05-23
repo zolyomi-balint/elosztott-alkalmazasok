@@ -2,10 +2,7 @@ package beadando;
 
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SpinnerModel;
-import javax.swing.SpinnerNumberModel;
 
 public class GUI extends javax.swing.JFrame {
 
@@ -91,12 +88,6 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        jTextFieldName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldNameActionPerformed(evt);
-            }
-        });
-
         jButtonAdd.setText("Add");
         jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,7 +95,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Name:");
+        jLabel1.setText("Full name:");
 
         jLabelSpecialization.setText("Specialization:");
 
@@ -122,9 +113,9 @@ public class GUI extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabelAge, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabelSpecialization, javax.swing.GroupLayout.Alignment.TRAILING))
+                                    .addComponent(jLabelSpecialization, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -359,29 +350,23 @@ public class GUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /* FORM METHODS */
-    private void jTextFieldNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldNameActionPerformed
-
     private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
         // TODO add your handling code here:
-            String name = jTextFieldName.getText();
-            int age = (Integer) jSpinnerAge.getValue();
+            String nameInput = jTextFieldName.getText();
+            int ageInput = (Integer) jSpinnerAge.getValue();
 
-            String specialization = jTextFieldSpecialization.getText();
+            String specializationInput = jTextFieldSpecialization.getText();
 
-        if(isValidAge(age) && isValidName(name)) {
+        if(isValidAge(ageInput) && isValidName(nameInput)) {
             if (jRadioButtonPerson.isSelected()) {
-                Person p1 = new Person(name, age);
-                jTextFieldName.setText("");
-                jSpinnerAge.setValue(0);
+                Person p1 = new Person(nameInput, ageInput);
+                resetPersonInputFields();
                 locality.addPerson(p1);
             }
-            else if (jRadioButtonDoctor.isSelected() && isValidSpecialization(specialization)) {
-                Doctor d1 = new Doctor(name, age, specialization);
-                jTextFieldName.setText("");
-                jSpinnerAge.setValue(0);
+            else if (jRadioButtonDoctor.isSelected() &&
+                    isValidSpecialization(specializationInput)) {
+                Doctor d1 = new Doctor(nameInput, ageInput, specializationInput);
+                resetPersonInputFields();
                 jTextFieldSpecialization.setText("");
                 locality.addPerson(d1);
             }
@@ -413,7 +398,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButtonOrderByAgeActionPerformed
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
-        selectPerson();
+        showDataOfPerson();
     }//GEN-LAST:event_jList1MouseClicked
 
     private void jButtonChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChatActionPerformed
@@ -424,27 +409,32 @@ public class GUI extends javax.swing.JFrame {
         Person person2 = getPersonByName(nameOfPerson2);
         
         if (person1.equals(person2)) {
-            JOptionPane.showMessageDialog(rootPane, "Cannot chat with self!", "Invalid input", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    rootPane, "Cannot chat with self!", "Invalid input",
+                    JOptionPane.WARNING_MESSAGE);
         } else {
             person1.chat(person2);
         }
-        selectPerson();
+        showDataOfPerson();
     }//GEN-LAST:event_jButtonChatActionPerformed
 
     private void jList1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseDragged
         // TODO add your handling code here:
-        selectPerson();
+        showDataOfPerson();
     }//GEN-LAST:event_jList1MouseDragged
 
     private void jList1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jList1KeyReleased
         // TODO add your handling code here:
-        selectPerson();
+        showDataOfPerson();
     }//GEN-LAST:event_jList1KeyReleased
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         int selectedButton = JOptionPane.showConfirmDialog(
-                rootPane, "Save changes?", "Exit", JOptionPane.YES_NO_CANCEL_OPTION);
+                rootPane,
+                "Save changes?",
+                "Exit",
+                JOptionPane.YES_NO_CANCEL_OPTION);
             switch (selectedButton) {
                 case JOptionPane.YES_OPTION:
                     locality.savePeople();
@@ -542,41 +532,56 @@ public class GUI extends javax.swing.JFrame {
 
     private void printPersonData(String nameOfSelectedPerson) {
         for (Person person : locality.getPeople()) {
-            if (person.getName() == nameOfSelectedPerson) {
+            if (person.getName().equals(nameOfSelectedPerson)) {
                 jTextFieldPersonData.setText(person.toString());    
             }
         }
     }
 
+    private void showDataOfPerson() {
+        String nameOfSelectedPerson = jList1.getSelectedValue();
+        printPersonData(nameOfSelectedPerson);
+    }
+    
     private Person getPersonByName(String nameOfPerson) {
         Person selectedPerson = null;
         for (Person person : locality.getPeople()) {
-            if (person.getName() == nameOfPerson) {
+            if (person.getName().equals(nameOfPerson)) {
                 selectedPerson = person;
             }
         }
         return selectedPerson;
     }
-    
-    private void selectPerson() {
-        String nameOfSelectedPerson = jList1.getSelectedValue();
-        printPersonData(nameOfSelectedPerson);
-    }
-    
+   
     private boolean isValidAge(int ageInput) {
         boolean isValid = ageInput >= 0 && ageInput <= 150;
         if (!isValid) {
-            JOptionPane.showMessageDialog(rootPane, "Age must be between 0-150!", "Invalid input", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "Age must be between 0-150!",
+                    "Invalid input",
+                    JOptionPane.WARNING_MESSAGE);
             jSpinnerAge.setValue(0);
         }
         return isValid;
     }
     
     private boolean isValidName(String nameInput) {
-        boolean isValid = nameInput.matches("[a-zA-Z ,]+") && getPersonByName(nameInput) == null;
+        boolean existingPerson = getPersonByName(nameInput) != null;
+        boolean isValid = nameInput.matches("[a-zA-Z ,]+");
         if (!isValid) {
-            JOptionPane.showMessageDialog(rootPane, "Name can only contain letters, spaces and commas!", "Invalid input", JOptionPane.WARNING_MESSAGE);
-            jSpinnerAge.setValue(0);
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "Name can only contain letters, spaces and commas!",
+                    "Invalid input",
+                    JOptionPane.WARNING_MESSAGE);
+        } else if (existingPerson) {
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "That person is already in the locality!",
+                    "Invalid input",
+                    JOptionPane.WARNING_MESSAGE);
+            isValid = false;
         }
         return isValid;
     }
@@ -584,9 +589,17 @@ public class GUI extends javax.swing.JFrame {
     private boolean isValidSpecialization(String specialization) {
         boolean isValid = specialization.matches("[a-zA-Z]+");
         if (!isValid) {
-            JOptionPane.showMessageDialog(rootPane, "Specialization can only contain letters!", "Invalid input", JOptionPane.WARNING_MESSAGE);
-            jSpinnerAge.setValue(0);
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "Specialization can only contain letters!",
+                    "Invalid input",
+                    JOptionPane.WARNING_MESSAGE);
         }
         return isValid;
+    }
+    
+    private void resetPersonInputFields() {
+        jTextFieldName.setText("");
+        jSpinnerAge.setValue(0);
     }
 }

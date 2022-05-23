@@ -14,7 +14,6 @@ public class Person implements Serializable {
     }
     
     public void chat(Person person) {
-        System.out.println(this.name + " chatting with: " + person.name);
         this.updateHealthy();
         person.updateHealthy();
     }
@@ -29,6 +28,7 @@ public class Person implements Serializable {
         this.healthy = healthy;
     }
 
+    /* GETTERS */
     public String getName() {
         return name;
     }

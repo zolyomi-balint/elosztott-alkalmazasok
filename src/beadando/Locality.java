@@ -50,13 +50,10 @@ public class Locality {
             people = (ArrayList<Person>) o.readObject();
             o.close();
         }
-        catch (ClassNotFoundException e) {
-            System.out.println(e);
-        }
         catch (FileNotFoundException e) {
             savePeople();
         }
-        catch (IOException e) {
+        catch (ClassNotFoundException | IOException e) {
             System.out.println(e);
         }
     }
