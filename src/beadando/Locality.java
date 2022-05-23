@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Locality {
-    public ArrayList<Person> people;
+    private ArrayList<Person> people;
     
     public Locality() {
         this.people = new ArrayList<>();
@@ -54,7 +54,7 @@ public class Locality {
             System.out.println(e);
         }
         catch (FileNotFoundException e) {
-            System.out.println(e);
+            savePeople();
         }
         catch (IOException e) {
             System.out.println(e);
